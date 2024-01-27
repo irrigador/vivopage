@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pagina Web</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    font-family: 'Poppins';
+}
+
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    background-color: #f2f2f2;
+    padding: 10px 0;
+}
+
+
+.tab {
+    margin: 0 10px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+
+.tab:hover {
+    background-color: #ddd;
+}
+
+
+.tab-active {
+    font-weight: bold;
+    background-color: #ccc;
+}
+
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    width: 100%; /* Garante que o conteúdo ocupe toda a largura */
+}
+
+
+h1 {
+    margin: 10px;
+}
+
+
+.form-group {
+    margin-bottom: 10px;
+   
+   
+}
+
+
+label {
+    display: inline-block;
+    width: 120px;
+    text-align: left;
+}
+
+
+input[type="text"], input[type="date"], select {
+    width: 200px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+
+button {
+    padding: 5px 10px;
+    background-color: #6A0DAD; /* Cor roxa */
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color .3s;
+}
+
+
+button:hover {
+    background-color: #8e24aa; /* Roxo mais claro */
+}
+
+
+textarea {
+    font-size: 19px;
+    border: 1px solid transparent;
+    outline: none;
+}
+
+
+textarea:hover {
+    border: 1px solid transparent; }
+
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 110%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+[data-tab-content] {
+    display: none;
+}
+
+
+.tab-content-active {
+    display: block;
+}
+
+
+.conversion-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    padding-right: 20px; /* Adicionado padding para afastar da direita */
+}
+
+
+.conversion-input {
+    width: 70px; /* Aumentado o tamanho do campo de entrada */
+    margin-right: 5px;
+    margin-left: 5px; /* Adicionado margem à esquerda para menor espaçamento entre a label e o campo */
+}
+
+
+#conversion-result {
+    margin-left: 15px;
+    font-weight: bold;
+}
+
+
+.label1 {
+    text-align: right;
+}
+
+
+a {
+    color: #fff;
+}
+a:link {
+text-decoration:none;
+}
+a:visited {
+text-decoration:none;
+}
+
+
+    </style>
+</head>
+<body>
+
+
+<div class="tabs">
+    <div data-tab="#content1" class="tab">Cadastrar</div>
+    <div data-tab="#content2" class="tab">Ligar Depois</div>
+    <div data-tab="#content4" class="tab">Portfolio</div>
+    <div data-tab="#content3" class="tab">Notas</div> <!-- Adicionado o novo item de menu -->
+   
+    <!-- Conversor -->
+    <div class="conversion-container">
+        <label class="label1">Ligações: </label>
+        <input type="number" id="callCount" class="conversion-input">
+        <label class="label1">Vendas: </label>
+        <input type="number" id="saleCount" class="conversion-input">
+        <button onclick="calculateConversion()">Calcular</button>
+        <span id="conversion-result"></span>
+    </div>
+</div>
+
+
+<div data-tab-content id="content1" class="content">
+     <h1>Titulo contrato</h1>
+        <div class="form-group">
+            <label>Nome:</label>
+            <input type="text" id="inputNome">
+            <div class="tooltip">
+                <button onclick="copyText('inputNome')">Copiar</button>
+                <span class="tooltiptext">Copiar conteúdo</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>CPF:</label>
+            <input type="text" id="inputCPF">
+            <div class="tooltip">
+                <button onclick="copyText('inputCPF')">Copiar</button>
+                <span class="tooltiptext">Copiar conteúdo</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Numero:</label>
+            <input type="text" id="inputNumero">
+            <div class="tooltip">
+                <button onclick="copyText('inputNumero')">Copiar</button>
+                <span class="tooltiptext">Copiar conteúdo</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Dt Nasc.:</label>
+            <input type="date" id="inputDataNascimento">
+            <div class="tooltip">
+                <button onclick="copyText('inputDataNascimento')">Copiar</button>
+                <span class="tooltiptext">Copiar conteúdo</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Nome da mãe:</label>
+            <input type="text" id="inputNomeMae">
+            <div class="tooltip">
+                <button onclick="copyText('inputNomeMae')">Copiar</button>
+                <span class="tooltiptext">Copiar conteúdo</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Estado Civil:</label>
+            <input type="text" id="inputEstadoCivil">
+            <div class="tooltip">
+                <button onclick="copyText('inputEstadoCivil')">Copiar</button>
+                <span class="tooltiptext">Copiar conteúdo</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>E-mail:</label>
+            <input type="text" id="inputEmail">
+            <div class="tooltip">
+                <button onclick="copyText('inputEmail')">Copiar</button>
+                <span class="tooltiptext">Copiar conteúdo</span>
+            </div>
+        </div>
+        <div >
+            <label>CEP:</label>
+            <input type="text" id="inputCEP">
+            <div class="tooltip">
+                <button onclick="copyText('inputCEP')">Copiar</button>
+                <span class="tooltiptext">Copiar conteúdo</span>
+            </div>
+        </div>
+        <div >
+            <label>Complemento:</label>
+            <select>
+                <option>Casa</option>
+                <option>Apartamento</option>
+                <option>Outros:</option>
+            </select>
+       
+           
+        </div>
+        <button style="background-color: #5353ec;"><a href="https://ceres/FacilitaVivo" target="_blank">Facilita</a></button>
+        <button style="background-color: #5353ec;"><a href="https://ceres/FacilitaTerra/Login?ReturnUrl=%2fFacilitaTerra%2fFormularioPergunta%2fIndex%2f92" target="_blank">Facilita Terra</a></button>
+        <button onclick="limparCampos()">Limpar</button>
+        <button style="background-color: #66CDAA;"><a href="https://docs.google.com/spreadsheets/d/1at5ybEkeKekncyum2-FyBBlWzc1X1tvY61SlvCM2WPk/edit?usp=sharing" target="_blank">Planilha de vendas</a></button>
+        
+</div>
+
+
+<div data-tab-content id="content2" class="content">
+    <h1>Ligardepois</h1>
+  
+<form>
+
+       <div class="form-group"><label for="n1">CPF: </label>
+        <input type="text" id="n1" name="n1"></div>  
+        <div class="form-group"><label for="n2">Número: </label>
+        <input type="text" id="n2" name="n2"></div>
+        <div class="form-group"><label for="n3">Horário: </label>
+        <input type="time" id="n3" name="n3"></div>
+        <button type="button" class="roxo" onclick="generatePDF()">Gerar PDF</button>
+    </form>
+</div>
+</div>
+
+
+<div data-tab-content id="content3" class="content">
+    <h1>Notas</h1>
+        <p></p>
+    <textarea rows="30" cols="100"></textarea> <!-- Textarea grande adicionado aqui -->
+   
+</div>
+
+
+<div data-tab-content id="content4" class="content">
+    <h1>Portfolio</h1>
+ 
+    <div data-tab="#content5" class="tab">Controle</div>
+    <div data-tab="#content6" class="tab">Pós-pago</div>
+</div>
+
+
+<div data-tab-content id="content5" class="content">
+    <h1>Portfolio Móvel</h1>
+    <div data-tab="#content5" class="tab">Controle</div>
+    <div data-tab="#content6" class="tab">Pós-pago</div>
+    <div class="form-group">
+        <h1> Controle</h1>
+        <h5>ILIMITADO: Ligações, SMS, Moovit</h5> <h1> <i class="fab fa-whatsapp"></i> <i class="fab fa-waze"></i></h1>
+        <h4>Pacote redes sociais:
+            <i class="fab fa-instagram"></i>
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-twitter"></i>
+            <i class="fab fa-snapchat"></i>
+            <i class="fab fa-pinterest"></i>
+            <i class="fab fa-facebook-messenger"></i>
+            <i class="fab fa-tiktok"></i>
+            <i class="fab fa-youtube"></i></h4>
+        <label>Controle 4Gb</label>
+            <div class="tooltip">
+                <button><strong>R$ 38</strong></button>
+                <label>Controle 11Gb </label>
+                <button><strong>R$ 43</strong></button>
+                <label>Redes sociais
+                </label>
+        </div>  
+    </div>
+    <div class="form-group">
+        <label>Controle 5Gb</label>
+            <div class="tooltip">
+                <button><strong>R$ 42</strong></button>
+                <label>Controle 13Gb </label>
+                <button><strong>R$ 47</strong></button>
+                <label>Redes sociais</label>
+        </div>  
+    </div>
+    <div class="form-group">
+        <label>Controle 6Gb</label>
+            <div class="tooltip">
+                <button><strong>R$ 52</strong></button>
+                <label>Controle 15Gb </label>
+                <button><strong>R$ 57</strong></button>
+                <label>Redes sociais</label>
+        </div>  
+    </div>
+    <div class="form-group">
+        <label>Controle 8Gb</label>
+            <div class="tooltip">
+                <button><strong>R$ 62</strong></button>
+                <label>Controle 19Gb </label>
+                <button><strong>R$ 67</strong></button>
+                <label>Redes sociais</label>
+        </div>  
+    </div>
+    <div class="form-group">
+        <label>Controle 10Gb</label>
+            <div class="tooltip">
+                <button><strong>R$ 72</strong></button>
+                <label>Controle 23Gb </label>
+                <button><strong>R$ 77</strong></button>
+                <label>Redes sociais</label>
+        </div>  
+    </div>
+    <div class="form-group">
+        <label>Controle 12Gb</label>
+            <div class="tooltip">
+                <button><strong>R$ 82</strong></button>
+                <label>Controle 27Gb </label>
+                <button><strong>R$ 87</strong></button>
+                <label>Redes sociais</label>
+        </div>  
+    </div>
+
+
+    <div class="form-group">
+        <label>Controle 14Gb</label>
+            <div class="tooltip">
+                <button><strong>R$ 92</strong></button>
+                <label>Controle 34Gb </label>
+                <button><strong>R$ 97</strong></button>
+                <label>Redes sociais</label>
+        </div>  
+    </div>
+   
+
+
+</div>
+<div data-tab-content id="content6" class="content">
+    <h1>Portfolio Pós-pago</h1>
+    <div data-tab="#content5" class="tab">Controle</div>
+    <div data-tab="#content6" class="tab">Pós-pago</div>
+    <h1> Selfie</h1>
+    <h5>ILIMITADO: Ligações, SMS, Whatsapp </h5>
+<h5>Usuário: 80906998 | Senha: uE5%,j$P</h5><h1> <i class="fab fa-whatsapp"></i> <i class="fab fa-waze"></i></h1>
+    <div class="form-group">
+        <label style="width: 200px;">Selfie 20Gb</label>
+            <div class="tooltip">
+                <button><strong>R$ 112,00</strong></button>
+                <label style="width: 200px;"></label>
+        </div>  
+    </div>
+
+
+    <div class="form-group">
+        <label style="width: 200px;">Selfie Prime 40Gb</label>
+            <div class="tooltip">
+                <button><strong>R$ 122,00</strong></button>
+                <label style="width: 200px;">Vivo travel America</label>
+        </div>  
+    </div>
+    <div class="form-group">
+        <label style="width: 200px;">Selfie Telecine 40Gb</label>
+            <div class="tooltip">
+                <button><strong>R$ 142,00</strong></button>
+                <label style="width: 200px;">Vivo travel America</label>
+        </div>  
+    </div>
+    <div class="form-group">
+        <label style="width: 200px;">Selfie GloboPlay 60Gb</label>
+            <div class="tooltip">
+                <button><strong>R$ 152,00</strong></button>
+                <label style="width: 200px;">Vivo travel America</label>
+        </div>  
+    </div>
+    <div class="form-group">
+        <label style="width: 200px;">Selfie Netflix 60Gb</label>
+            <div class="tooltip">
+                <button><strong>R$ 162,00</strong></button>
+                <label style="width: 200px;">Vivo travel America</label>
+        </div>  
+    </div>
+    <div class="form-group">
+        <label style="width: 200px;">Selfie Premiere 80Gb</label>
+            <div class="tooltip">
+                <button><strong>R$ 172,00</strong></button>
+                <label style="width: 200px;">Vivo travel America</label>
+        </div>  
+    </div>
+    <div class="form-group">
+        <label style="width: 200px;">Selfie 50Gb</label>
+            <div class="tooltip">
+                <button><strong>R$ 182,00</strong></button>
+                <label style="width: 200px;">Vivo travel Mundial</label>
+        </div>  
+    </div>
+
+
+    <h1> Família</h1>
+    <h5>ILIMITADO: Ligações, SMS, Whatsapp </h5><h1> <i class="fab fa-whatsapp"></i> <i class="fab fa-waze"></i></h1>
+
+    <div class="form-group">
+        <label style="width: 200px;">Família 60Gb 1 Linha</label>
+            <div class="tooltip">
+                <button><strong>R$ 242,00</strong></button>
+                <label style="width: 200px;">Vivo travel America</label>
+        </div>  
+    </div>
+    <div class="form-group">
+        <label style="width: 200px;">Família 100Gb 2 Linhas</label>
+            <div class="tooltip">
+                <button><strong>R$ 312,00</strong></button>
+                <label style="width: 200px;">Vivo travel America</label>
+        </div>  
+    </div>
+    <div class="form-group">
+        <label style="width: 200px;">Família 150Gb 3 Linhas</label>
+            <div class="tooltip">
+                <button><strong>R$ 412,00</strong></button>
+                <label style="width: 200px;">Vivo travel Mundial</label>
+        </div>  
+    </div>
+    <div class="form-group">
+        <label style="width: 200px;">Família 200Gb 4 Linhas</label>
+            <div class="tooltip">
+                <button><strong>R$ 512,00</strong></button>
+                <label style="width: 200px;">Vivo travel Mundial</label>
+        </div>  
+    </div>
+    <div class="form-group">
+        <label style="width: 200px;">Família 500Gb 8 Linhas</label>
+            <div class="tooltip">
+                <button><strong>R$ 1.192,00</strong></button>
+                <label style="width: 200px;">Vivo travel Mundial</label>
+        </div>  
+    </div>
+    
+        </div>  
+    </div>
+
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+<script>
+    function copyText(inputId) {
+        const inputField = document.getElementById(inputId);
+        inputField.select();
+        document.execCommand("copy");
+    }
+
+
+    const tabs = document.querySelectorAll('[data-tab]'),
+          tabContents = document.querySelectorAll('[data-tab-content]');
+
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = document.querySelector(tab.dataset.tab);
+
+
+            tabContents.forEach(tc => {
+                tc.classList.remove('tab-content-active');
+            });
+            target.classList.add('tab-content-active');
+
+
+            tabs.forEach(t => {
+                t.classList.remove('tab-active');
+            });
+            tab.classList.add('tab-active');
+        });
+    });
+
+
+function calculateConversion() {
+        const callCount = parseFloat(document.getElementById('callCount').value) || 0;
+        const saleCount = parseFloat(document.getElementById('saleCount').value) || 0;
+
+
+        if(callCount === 0) {
+            alert('Insira a quantidade de ligações.');
+            return;
+        }
+
+
+        const conversionRate = (saleCount / callCount) * 100;
+        document.getElementById('conversion-result').textContent = `Conversão: ${conversionRate.toFixed(2)}%`;
+    }
+
+
+    function limparCampos() {
+            document.getElementById('inputNome').value = '';
+            document.getElementById('inputCPF').value = '';
+            document.getElementById('inputNumero').value = '';
+            document.getElementById('inputDataNascimento').value = '';
+            document.getElementById('inputNomeMae').value = '';
+            document.getElementById('inputEstadoCivil').value = '';
+            document.getElementById('inputEmail').value = '';
+            document.getElementById('inputCEP').value = '';
+        }
+</script>
+   
+</body>
+</html>
+
+
+
+
